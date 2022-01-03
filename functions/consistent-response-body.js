@@ -3,7 +3,7 @@
 
 // pathItem should be a [path item object](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md#pathItemObject).
 // This function assumes it is running on a resolved doc.
-module.exports = (pathItem, _opts, paths) => {
+const check = (pathItem, _opts, paths) => {
   if (pathItem === null || typeof pathItem !== 'object') {
     return [];
   }
@@ -27,4 +27,9 @@ module.exports = (pathItem, _opts, paths) => {
   }
 
   return errors;
+}
+
+module.exports = {
+  check,
+  default: check,
 };

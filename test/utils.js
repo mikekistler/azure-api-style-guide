@@ -3,24 +3,16 @@ const { migrateRuleset } = require('@stoplight/spectral-ruleset-migrator');
 const fs = require('fs');
 const path = require('path');
 
-const AsyncFunction = (async () => {}).constructor;
+const { fetch } = require('@stoplight/spectral-runtime');
+const { bundleAndLoadRuleset } = require('@stoplight/spectral-ruleset-bundler/dist/loader/node');
+const { resolve } = require('path');
 
-const rulesetFile = './spectral.yaml';
+const rulesetFile = resolve('./spectral.yaml');
 
 async function linterForRule(rule) {
   const linter = new Spectral();
 
-  const m = {};
-  const paths = [path.dirname(rulesetFile), __dirname, '..'];
-  await AsyncFunction(
-    'module, require',
-    await migrateRuleset(rulesetFile, {
-      format: 'commonjs',
-      fs,
-    }),
-    // eslint-disable-next-line import/no-dynamic-require,global-require
-  )(m, (text) => require(require.resolve(text, { paths })));
-  const ruleset = m.exports;
+  const ruleset = await bundleAndLoadRuleset(rulesetFile, { fs, fetch });
   delete ruleset.extends;
   Object.keys(ruleset.rules).forEach((key) => {
     if (key !== rule) {

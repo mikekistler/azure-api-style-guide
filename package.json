@@ -16,7 +16,8 @@
   },
   "devDependencies": {
     "@stoplight/spectral-core": "1.4.0",
-    "@stoplight/spectral-ruleset-migrator": "^1.4.2",
+    "@stoplight/spectral-ruleset-bundler": "^1.1.1",
+    "@stoplight/spectral-runtime": "^1.1.1",
     "@stoplight/spectral-rulesets": "^1.2.4",
     "ajv": "^8.6.2",
     "eslint": "^7.30.0",
