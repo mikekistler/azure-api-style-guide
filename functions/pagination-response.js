@@ -51,6 +51,7 @@ module.exports = (operation, _opts, paths) => {
         path: [...path, 'responses', resp, 'schema', 'properties'],
       });
     }
+
     // Check nextLink property
     const nextLinkName = operation['x-ms-pageable'].nextLinkName || 'nextLink';
     if (responseSchema.properties && nextLinkName in responseSchema.properties) {
@@ -70,6 +71,14 @@ module.exports = (operation, _opts, paths) => {
       errors.push({
         message: `Response body schema of pageable response should contain top-level property \`${nextLinkName}\``,
         path: [...path, 'responses', resp, 'schema', 'properties'],
+      });
+    }
+
+    // Check count property
+    if (responseSchema.properties && 'count' in responseSchema.properties) {
+      errors.push({
+        message: 'Avoid returning "count" in a pageable list response unless there is a known requirement.',
+        path: [...path, 'responses', resp, 'schema', 'properties', 'count'],
       });
     }
   } else {
