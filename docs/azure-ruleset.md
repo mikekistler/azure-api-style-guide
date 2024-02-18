@@ -200,6 +200,10 @@ All parameter names for an operation -- including parameters defined at the path
 
 Path parameters must be in the same order as in the path.
 
+### az-patch-body-properties
+
+Properties in a patch request body must not have a default value.
+
 ### az-patch-content-type
 
 The request body content type for patch operations should be JSON merge patch.

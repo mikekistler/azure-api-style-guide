@@ -13,6 +13,7 @@ functions:
   - param-names
   - param-names-unique
   - param-order
+  - patch-body-properties
   - patch-content-type
   - path-param-schema
   - path-param-names
@@ -423,6 +424,17 @@ rules:
     given: $
     then:
       function: patch-content-type
+
+  az-patch-body-properties:
+    description: Properties in a patch request body must not have a default value.
+    message: '{{error}}'
+    severity: warn
+    formats: ['oas2','oas3']
+    given:
+    - $.paths[*].patch.parameters.[?(@.in == 'body')].schema
+    - $.paths[*].patch.requestBody..schema
+    then:
+      function: patch-body-properties
 
   # Patch on a path that does not end in path parameter is uncommon.
   az-patch-path:
